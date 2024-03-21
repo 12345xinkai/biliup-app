@@ -43,7 +43,7 @@
         const keys = Object.keys($template);
         const index = keys.indexOf(selected);
         if (len==1){
-            createPop("已经是最后一个模板无法删除");
+            createPop("The last unremoveable template");
             return;
         }
         delete $template[selected];
@@ -61,7 +61,7 @@
         await save_config((ret) => {
             ret.streamers = $template;
         })
-        createPop('移除成功', 2000, 'Success');
+        createPop('Removed successfully', 2000, 'Success');
     }
 
     async function save() {
@@ -71,15 +71,15 @@
         })
         selectedTemplate.changed = false;
         $template = $template;
-        createPop('保存成功', 5000, 'Success');
+        createPop('Saved successfully', 5000, 'Success');
     }
 
     // console.log()
     let tags = selectedTemplate?.tag ? selectedTemplate?.tag.split(',') : [];
     // $: tags = selectedTemplate?.tag.split(',');
 
-    let parent = '请选择';
-    let children = '分区';
+    let parent = 'Select';
+    let children = 'a zone';
     let current;
     let currentChildren;
     $: {
@@ -101,8 +101,8 @@
                 // console.log(partitionElement.children);
             }
             if (!changed) {
-                parent = '请选择';
-                children = '分区';
+                parent = 'Select';
+                children = 'a zone';
                 current = null;
                 currentChildren = null;
             }
@@ -131,10 +131,10 @@
         let hires_params = {};
         if (selected?.length > 2 && (selected.startsWith('av') || selected.startsWith('BV'))) {
             invokeMethod = 'edit_video';
-            msg = '编辑';
+            msg = 'Edit';
         }else {
             invokeMethod = 'submit';
-            msg = '投稿';
+            msg = 'Submit';
             hires_params = { lossless_music: isHiRes ? 1 : 0 };
         }
         invoke(invokeMethod, {
@@ -148,7 +148,7 @@
         })
         .then((res: any) => {
             console.log(res);
-            createPop(`${selected} - ${msg}成功: ${res.bvid}`, 5000, 'Success');
+            createPop(`${selected} - ${msg} successfully: ${res.bvid}`, 5000, 'Success');
         }).catch((e) => {
                 createPop(e, 5000);
                 console.log(e);
@@ -170,12 +170,12 @@
 
     function handleKeypress() {
         if (tags.includes(tempTag)) {
-            createPop("已有相同标签");
+            createPop("The same tag");
             tempTag = null;
             return;
         }
         if(tags.length > 12) {
-            createPop("标签数量超过12个，无法添加");
+            createPop("The maximal number of tags is 12");
             tempTag = null;
             return;
         }
@@ -240,7 +240,7 @@
 
     // a reference to the component, used to call FilePond methods
     let pond;
-    let labelIdle = `<span class="filepond--label-action">选择</span>并上传视频封面`;
+    let labelIdle = `<span class="filepond--label-action">Select </span> and upload its cover`;
     // pond.getFiles() will return the active files
 
     // the name to use for the internal file input
@@ -326,7 +326,7 @@
                     {#if (edit)}
                         <input on:focusout={()=> update(false)} bind:value={selected}
                                class="w-full p-1 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                               placeholder="标题">
+                               placeholder="Title">
                     {:else}
                         <div class="p-1">
                             {selected}
@@ -361,7 +361,7 @@
             </div>
             <input bind:value={selectedTemplate.title}
                    class="bg-[#f9fcfd] w-full text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                   placeholder="标题">
+                   placeholder="Title">
             <Append selectedTemplate="{selectedTemplate}"/>
             <p class="text-sm text-gray-300">
                 File type: .mp4,.flv,.avi,.wmv,.mov,.webm,.mpeg4,.ts,.mpg,.rm,.rmvb,.mkv,.m4v
@@ -388,17 +388,17 @@
                     <!--                        </label>-->
                     <!--                    </div>-->
                     <span class="mx-2 w-auto text-sm tracking-wide">
-                            是否转载
+                            Repost?
                     </span>
                     <!--                </div>-->
                     <div class="pl-4 invisible flex-grow" class:copyright={nocopyright}>
-                        <input bind:value={selectedTemplate.source} class="input w-full" placeholder="转载来源" type="text"/>
+                        <input bind:value={selectedTemplate.source} class="input w-full" placeholder="Source" type="text"/>
                     </div>
                 </div>
                 {#if !nocopyright}
                     <div class="form-control">
                         <label class="label cursor-pointer">
-                            <span class="label-text">自制声明：未经作者授权 禁止转载</span>
+                            <span class="label-text">Original claim: No repost without the author's mandate</span>
                             <input type="checkbox" bind:checked="{noReprint}" class="checkbox">
                         </label>
                     </div>
@@ -441,28 +441,28 @@
                 {/each}
 
                 <input bind:value={tempTag} class="outline-none rounded-lg flex-1 appearance-none  w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base " on:keypress={e=>e.key==='Enter' && handleKeypress()}
-                       placeholder="标签，回车输入"
+                       placeholder="Enter a tag"
                        type="text"/>
             </div>
             <div class="text-gray-700">
                 <label class="label">
-                    <span class="text-sm font-bold text-gray-500 tracking-wide">简介</span>
+                    <span class="text-sm font-bold text-gray-500 tracking-wide">Description</span>
                 </label>
                 <textarea bind:value={selectedTemplate.desc}
                           class="textarea textarea-bordered w-full"
-                          cols="40" placeholder="简介补充: ..." rows="4"></textarea>
+                          cols="40" placeholder="Description: ..." rows="4"></textarea>
             </div>
             <div class="text-gray-700">
                 <label class="label">
-                    <span class="text-sm font-bold text-gray-500 tracking-wide">粉丝动态</span>
+                    <span class="text-sm font-bold text-gray-500 tracking-wide">Fans' dynamic</span>
                 </label>
                 <textarea bind:value={selectedTemplate.dynamic}
                           class="textarea textarea-bordered w-full"
-                          cols="40" placeholder="动态描述" rows="1"></textarea>
+                          cols="40" placeholder="Dynamic" rows="1"></textarea>
             </div>
             <div class="flex items-center">
                 <input type="checkbox" class="toggle my-2" bind:checked="{isDtime}">
-                <span class="ml-2 text-sm font-bold text-gray-500 tracking-wide">开启定时发布</span>
+                <span class="ml-2 text-sm font-bold text-gray-500 tracking-wide">Turn on schedule</span>
                 {#if (isDtime)}
                     <input class="mx-3 border rounded-lg border-gray-300 py-1 px-2" type="date" bind:value={date}/>
                     <input class="mx-3 border rounded-lg border-gray-300 py-1 px-2" type="time" bind:value={time}/>
@@ -471,7 +471,7 @@
             {#if (!hiResFieldDisabled)}
             <div class="flex items-center">
                 <input type="checkbox" class="toggle my-2" bind:checked="{isHiRes}">
-                <span class="ml-2 text-sm font-bold text-gray-500 tracking-wide">Hi-Res无损音质</span>
+                <span class="ml-2 text-sm font-bold text-gray-500 tracking-wide">Hi-Res quality</span>
             </div>
             {/if}
             {#if (autoSubmit)}
@@ -481,7 +481,7 @@
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        等待视频上传完后会自动提交...
+                        Auto-submit this video till it being uploaded...
                     </button>
                     <a class="cursor-pointer" on:click={cancelSubmit}>
                         <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-400 hover:stroke-rose-500 transition ease-in-out duration-150 ml-2.5 h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -492,7 +492,7 @@
             {:else}
                 <button class="p-2 my-5 w-full flex justify-center bg-blue-500 text-gray-100 rounded-full tracking-wide
                           font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300" on:click|preventDefault={submit} type="submit">
-                    提交视频
+                    Submit
                 </button>
             {/if}
         </div>
