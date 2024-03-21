@@ -69,9 +69,9 @@
                 return;
             }
         }
-        let name = tempName ?? '未命名模板' + Object.keys($template).length;
+        let name = tempName ?? 'Unnamed template' + Object.keys($template).length;
         if (name in $template) {
-            createPop('模板名称已存在', 5000);
+            createPop('The same template name', 5000);
             return;
         }
         $template[name] = {
@@ -189,7 +189,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                                 <!--                        </svg>-->
                             </svg>
-                            <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">注销并添加新账号</h3>
+                            <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">Log off and add a new account</h3>
                         </div>
                     </label>
                     <ul role="list" class="p-6 divide-y divide-slate-200">
@@ -208,17 +208,17 @@
                         {/each}
                     </ul>
                     <div class="modal-action">
-                        <label for="{componentId}" on:click={processChangeUser} class="btn">切换账号</label>
+                        <label for="{componentId}" on:click={processChangeUser} class="btn">Switch an account</label>
                     </div>
                 </div>
             </Modal>
-            <div data-tip="打开配置文件夹" class="tooltip">
+            <div data-tip="Open the configuration folder" class="tooltip">
                 <h4 on:click={openConfigDir} class="ml-2 font-medium text-gray-800 hover:underline truncate max-w-[8rem]">{name}</h4>
             </div>
         </div>
 
         <Modal>
-            <a slot="open-modal" class="flex cursor-pointer tooltip items-center" data-tip="设置" on:click={loadSettings} >
+            <a slot="open-modal" class="flex cursor-pointer tooltip items-center" data-tip="Setting" on:click={loadSettings} >
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
                 </svg>
@@ -226,10 +226,10 @@
 
             <div slot="box" let:componentId>
                 <div class="space-y-2.5">
-                    <h4>单视频并发数：{limit}</h4>
+                    <h4>Concurrences of a single video：{limit}</h4>
                     <input type="range" max="128" min="1" bind:value={limit} class="range  range-xs">
                     <!--                    <button class="btn btn-outline">线路: AUTO</button>-->
-                    <h4>上传线路选择：</h4>
+                    <h4>Select an uploading route: </h4>
                     <div class="btn-group">
                         {#each lines as l}
                             <input type="radio" bind:group={line} value="{l}" data-title="{l}" class="btn btn-outline btn-xs">
@@ -289,18 +289,18 @@
                 <div slot="box" let:componentId>
                     <div class="form-control w-full max-w-xs">
                         <label class="label">
-                            <span class="label-text">输入BV或av号可编辑现有稿件</span>
+                            <span class="label-text">Type BVid or avid to edit its post</span>
                             <span class="label-text-alt">av971158452</span>
                         </label>
-                        <input type="text" bind:value={tempName} placeholder="{'未命名模板' + Object.keys($template).length}" class="input input-bordered w-full max-w-xs" />
+                        <input type="text" bind:value={tempName} placeholder="{'Unnamed template' + Object.keys($template).length}" class="input input-bordered w-full max-w-xs" />
                         <label class="label">
-                            <span class="label-text-alt">输入其他将新建投稿模板</span>
+                            <span class="label-text-alt">Type another to create a new template</span>
                             <span class="label-text-alt">BV1ip4y1x7Gi</span>
                         </label>
                     </div>
 
                     <div class="modal-action">
-                        <label for="{componentId}" on:click={add} class="btn btn-accent">添加模板</label>
+                        <label for="{componentId}" on:click={add} class="btn btn-accent">Add a template</label>
                         <label for="{componentId}" class="btn">Close</label>
                     </div>
                 </div>
